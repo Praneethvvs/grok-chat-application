@@ -1,0 +1,6 @@
+__pycache__
+package_for_lambda.sh
+startup.sh
+.vscode
+.git
+venv

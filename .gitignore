@@ -1,0 +1,6 @@
+venv
+miscellaneous
+.idea
+__pycache__
+*.zip
+*/__pycache__
