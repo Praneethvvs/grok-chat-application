@@ -1,35 +1,16 @@
 import traceback
 import uuid
 
-import boto3
 from fastapi import FastAPI, HTTPException, Request
-from mangum import Mangum
-from pydantic import BaseModel
 
 from api.chat_service import ChatService
-from api.config_parser import ConfigParser
 from api.create_client import get_grok_client
 
-# SESSION = boto3.Session(
-#     profile_name="viswa-admin", region_name="us-east-1"
-# )  # for local machine
-SESSION = boto3.Session(region_name="us-east-1")  # lambda doesnt recognize profiles
-
-
-# #openai client
-# KEY = ConfigParser(session=SESSION).load_config(
-#     parameter_name="/hoabot/chatgpt/apikey"
-# )
-# CLIENT = get_openai_client(api_key=CHAT_GPT_KEY)
-
-
 # groq_client
-KEY = ConfigParser(session=SESSION).load_config(parameter_name="/groq/apikey")
-CLIENT = get_grok_client(api_key=KEY)
+CLIENT = get_grok_client(api_key="")
 
 
-app = FastAPI()
-lambda_handler = Mangum(app)  # doesnot work in local machine , use app instead
+app = FastAPI()  # doesnot work in local machine , use app instead
 
 
 @app.get("/random_id_generator")
