@@ -1,9 +1,6 @@
 #------------------INTERMEDIATE BUILD------------------------
 FROM python:3.10.0-slim as builder
 
-ARG PIP_EXTRA_URL
-ARG ACCESS_TOKEN
-
 RUN pip install poetry==1.7.1
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -36,6 +33,4 @@ COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY . /app
 
-RUN pip install awslambdaric
-ENTRYPOINT ["/app/.venv/bin/python", "-m", "awslambdaric"]
-CMD ["lambda_function.lambda_handler"]
+CMD ["uvicorn", "azure_function:app", "--host", "0.0.0.0", "--port", "8080"]

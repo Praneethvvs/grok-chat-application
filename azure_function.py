@@ -7,7 +7,7 @@ from api.chat_service import ChatService
 from api.create_client import get_grok_client
 
 # groq_client
-CLIENT = get_grok_client(api_key="")
+CLIENT = get_grok_client(api_key="***********PLEASE ADD TOKEN HERE************")
 
 
 app = FastAPI()  # doesnot work in local machine , use app instead
