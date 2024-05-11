@@ -12,16 +12,11 @@ from api.create_client import ClientFactory
 from api.service.chat_service import ChatService
 from api.service.doc_qa_service import DocQaProcessor
 
-SESSION = boto3.Session(
-    region_name="us-east-1", profile_name="ryan-admin-dev"
-)  # lambda doesnt recognize profiles
+SESSION = boto3.Session(region_name="us-east-1")  # lambda doesnt recognize profiles
 
 
-# openai client
-# KEY = ConfigParser(session=SESSION).load_config(parameter_name="/hoabot/chatgpt/apikey")
+KEY = ConfigParser(session=SESSION).load_config(parameter_name="/openai/apikey")
 
-KEY = "xxxxxxxxxxxxxxxx"
-# os.environ["OPENAI_API_KEY"] = KEY
 open_ai_client, lang_open_ai_client, lang_open_ai_embeddings = ClientFactory.get_client(
     client="openai", api_key=KEY
 )
@@ -39,8 +34,6 @@ async def root():
 @app.post("/chat")
 async def chat(request: Request):
 
-    # request ->>{"headers", "body":""}
-    # {"message":"Hi, How are you?"} - sample body
     body = await request.json()
     user_message = body.get("message")
     if not user_message:
