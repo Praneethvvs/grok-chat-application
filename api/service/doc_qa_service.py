@@ -49,21 +49,21 @@ class DocQaProcessor:
         try:
 
             knowledgeBase = FAISS.from_texts(chunks, embedding=self.embeddings)
-            knowledgeBase.save_local("embeddings/faiss_index")
+            knowledgeBase.save_local(f"faiss_index/{docname}")
         except Exception as e:
             print(f"An error occurred while saving embeddings: {e}")
             raise
 
     def retrieve_embeddings(self, docname):
         vector_store = FAISS.load_local(
-            f"embeddings/faiss_index",
+            f"faiss_index/{docname}",
             self.embeddings,
             allow_dangerous_deserialization=True,
         )
         return vector_store
 
     def is_knowledge_base_exists(self, filename):
-        return os.path.exists(f"embeddings/faiss_index")
+        return os.path.exists(f"faiss_index/{filename}")
 
     def get_response_llm(self, knowledgeBase_refined, query):
         chain = load_qa_chain(self.openai_client, chain_type="stuff")
