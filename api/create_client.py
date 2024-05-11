@@ -1,18 +1,22 @@
 import os
-from openai import OpenAI
+
 from groq import Groq
+from langchain_openai import OpenAI as LangOpenAI
+from langchain_openai import OpenAIEmbeddings as LangOpenAIEmbeddings
+from openai import OpenAI
 
 
-def get_openai_client(api_key):
-    client = OpenAI(
-        # This is the default and can be omitted
-        api_key=api_key,
-    )
-    return client
+class ClientFactory:
 
+    def get_client(client, api_key):
+        if client == "openai":
+            return (
+                OpenAI(api_key=api_key),
+                LangOpenAI(api_key=api_key),
+                LangOpenAIEmbeddings(api_key=api_key),
+            )
 
-def get_grok_client(api_key):
-    client = Groq(
-        api_key=api_key,
-    )
-    return client
+        elif client == "grok":
+            return Groq(api_key=api_key)
+        else:
+            raise ValueError("Incorrect client: Accepted values ['openai', 'grok']")
