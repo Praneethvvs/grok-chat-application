@@ -13,7 +13,6 @@ class ConfigParser:
                 Name=parameter_name, WithDecryption=True
             )
             key = response["Parameter"]["Value"]
-            print("openai key---------->", key)
             # Validate and return the configuration {"key":"xxxxxxxxxxxx"}
             return key
         except ClientError as e:

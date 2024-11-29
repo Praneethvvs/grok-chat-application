@@ -23,7 +23,7 @@ open_ai_client, lang_open_ai_client, lang_open_ai_embeddings = ClientFactory.get
 
 
 app = FastAPI()
-# lambda_handler = Mangum(app)  # doesnot work in local machine , use app instead
+lambda_handler = Mangum(app)  # doesnot work in local machine , use app instead
 
 
 @app.get("/random_id_generator")

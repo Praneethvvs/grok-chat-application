@@ -43,7 +43,7 @@ class DocQaProcessor:
             )
             return s3_response["Body"].read()
         except NoCredentialsError:
-            return None
+            raise ValueError("File doesnt exist in s3, please give a valid file")
 
     def store_embeddings(self, chunks, docname):
         try:
@@ -81,9 +81,12 @@ class DocQaProcessor:
             print(
                 f"No Knowledge base exists locally for ===> {docname}, creating one locally"
             )
-            file_content = self.get_s3_file(
-                bucket_name="pvvs-bucket-exp", file_name=docname
-            )
+            try:
+                file_content = self.get_s3_file(
+                    bucket_name="pvvs-bucket-exp-new", file_name=docname
+                )
+            except:
+                return "No such file exists on s3, please make sure the file exists"
             chunks = self.text_splitter(file_content)
             self.store_embeddings(chunks, docname)
 
